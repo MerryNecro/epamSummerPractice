@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EPAM.AWARDS.BLL.Interfaces\EPAM.AWARDS.BLL.Interfaces.csproj" />
+    <ProjectReference Include="..\EPAM.AWARDS.BLL\EPAM.AWARDS.BLL.csproj" />
+    <ProjectReference Include="..\EPAM.AWARDS.DAL.Interfaces\EPAM.AWARDS.DAL.Interfaces.csproj" />
+    <ProjectReference Include="..\EPAM.AWARDS.DALSQL\EPAM.AWARDS.DALSQL.csproj" />
+  </ItemGroup>
+
+</Project>

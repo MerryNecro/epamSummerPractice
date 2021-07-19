@@ -1,0 +1,19 @@
+﻿@using EPAM.AWARDS.ASPPL.Models
+@using EPAM.AWARDS.BLL
+@{
+    Layout = null;
+    if (IsPost)
+    {
+        string name= Request["name"];
+        string pass = Request["pass"];
+        DateTime date;
+
+        if (DateTime.TryParse(Request["date"],out date))
+        {
+            BaseModel.bll.CreateUser(name, date, BaseModel.autchModel.HashPassword(pass));
+        }
+
+
+    }
+    Response.Redirect("~/Index.cshtml");
+}

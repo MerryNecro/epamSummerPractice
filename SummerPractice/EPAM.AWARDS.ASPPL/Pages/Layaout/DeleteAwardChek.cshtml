@@ -1,0 +1,44 @@
+﻿@using EPAM.AWARDS.ASPPL.Models
+@using EPAM.AWARDS.Entities
+@{
+    Layout = null;
+}
+@if (IsPost)
+{
+    int idAward;
+    if (int.TryParse(Request["idAward"], out idAward))
+    {
+        Award award = BaseModel.bll.GetAward(idAward);
+        if (award != null)
+        {
+            bool userHasAward = EPAM.AWARDS.Entities.User.HasAward(BaseModel.bll.GetUsers(), award) != null;
+            if (userHasAward)
+            {
+                <form action="~/Pages/Layaout/DeleteAwardOfUsers" method="post">
+                    <div class="item">
+                        <h4>Вы действитель но хотите удалить награду у всех пользоваиелей</h4>
+                        <select size="1" name="IdAward">
+                            <option value="@award.Id">@award.Title</option>
+                        </select>
+                    </div>
+                    <input type="submit" value="Удалить награду" />
+                </form>
+
+                <form action="/Index.cshtml">
+                    <button>Назад</button>
+                </form>                
+            }
+
+            else
+            {
+                BaseModel.bll.DeleteAward(idAward);
+                Response.Redirect("~/Index");
+            }
+        }
+    }
+}
+else
+{
+    Response.Redirect("~/Index.cshtml");
+}
+

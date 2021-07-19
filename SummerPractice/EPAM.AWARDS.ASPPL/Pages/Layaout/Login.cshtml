@@ -1,0 +1,64 @@
+﻿@using EPAM.AWARDS.ASPPL.Models
+@using EPAM.AWARDS.BLL
+@{
+    Layout = "~/Pages/Layaout/_BasicLayout.cshtml";
+    if (IsPost)
+    {
+        if (Request["btn"] == "Войти")
+        {
+            string name = Request["name"];
+            string pass = Request["pass"];
+
+
+
+            if (BaseModel.autchModel.CanLogin(name.Trim(), pass))
+            {
+                FormsAuthentication.SetAuthCookie(name.Trim(), createPersistentCookie: true);
+                Response.Redirect("~/Index.cshtml");
+            }
+            else
+            {
+                <h4>Не удалось войти, попробуйте снова</h4>
+            }
+        }
+
+        if (Request["btn"] == "Создать пользователя")
+        {
+            string name = Request["name"];
+            string pass = Request["pass"];
+            DateTime date;
+
+            if (DateTime.TryParse(Request["date"], out date))
+            {
+                BaseModel.bll.CreateUser(name, date,BaseModel.autchModel.HashPassword( pass));
+            }
+
+        }
+    }
+}
+
+
+<form action="" method="post">
+    <div class="item">
+        <label>Имя</label>
+        <input type="text" name="name" value="" />
+        <label>Пароль</label>
+        <input type="password" name="pass" value="" />
+        <input type="submit" name="btn" value="Войти" />
+    </div>
+
+</form>
+
+<form action="" method="post">
+    <div class="item">
+        <label>Имя</label>
+        <input type="text" name="name" value="" />
+        <label>Пароль</label>
+        <input type="password" name="pass" value="" />
+    </div>
+    <div class="item">
+        <label>Время рождения</label>
+        <input type="date" name="date" value="@DateTime.Now" />
+    </div>
+    <input type="submit" name="btn" value="Создать пользователя" />
+</form>

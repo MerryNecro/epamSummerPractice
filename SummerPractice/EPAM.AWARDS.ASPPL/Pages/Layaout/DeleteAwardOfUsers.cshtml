@@ -1,0 +1,16 @@
+﻿@using EPAM.AWARDS.ASPPL.Models
+@using EPAM.AWARDS.Entities
+@{
+    Layout = null;
+}
+@if (IsPost)
+{
+    int idAward;
+    if (int.TryParse(Request["idAward"], out idAward))
+    {
+        BaseModel.bll.DeleteAward(idAward);
+        Response.Redirect("~/Index.cshtml");
+    }
+}
+
+

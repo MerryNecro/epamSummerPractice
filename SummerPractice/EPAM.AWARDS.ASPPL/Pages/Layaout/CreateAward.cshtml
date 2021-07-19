@@ -1,0 +1,10 @@
+﻿@using EPAM.AWARDS.ASPPL.Models
+@{
+    Layout = null;
+    if (IsPost)
+    {
+        string title = Request["title"];       
+        BaseModel.bll.CreateAward(title);
+    }
+    Response.Redirect("~/Index.cshtml");
+}

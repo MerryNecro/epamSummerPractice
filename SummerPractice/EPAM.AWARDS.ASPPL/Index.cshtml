@@ -1,0 +1,150 @@
+﻿@using EPAM.AWARDS.ASPPL.Models;
+@{
+
+    Layout = "~/Pages/Layaout/_BasicLayout.cshtml";
+}
+
+@if (User.IsInRole("user") || User.IsInRole("admin"))
+{
+    <div>
+        <h3>Cписок пользователей</h3>
+        <ul>
+            @foreach (var item in BaseModel.bll.GetUsers())
+            {
+                <li>
+                    <details>
+                        <summary>ID: @item.Id Имя: @item.Name </summary>
+                        <p>Дата рождения: @item.DateOfBirth</p>
+                        <p>
+                            <h4>Награды:</h4>
+                            <ul>
+                                @foreach (var award in item.Awards)
+                                {
+
+                                    if (award != null)
+                                    {
+                                        <li>
+                                            @award.Title;
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </p>
+                    </details>
+                </li>
+            }
+        </ul>
+    </div>
+
+    <div>
+        <details>
+            <summary>Награды:</summary>
+            <ul>
+                @foreach (var award in BaseModel.bll.GetAwards())
+                {
+                    if (award != null)
+                    {
+                        <li>
+                            <b>ID: @award.Id </b>  @award.Title
+                        </li>
+                    }
+                }
+            </ul>
+        </details>
+    </div>
+}
+
+
+
+
+
+
+@if (User.IsInRole("admin"))
+{
+    <form action="~/Pages/Layaout/CreateAward.cshtml" method="post">
+        <div class="item">
+            <label>Название награды</label>
+            <input name="title" value="" />
+        </div>
+        <input type="submit" value="Создать награду" />
+    </form>
+
+    <form action="~/Pages/Layaout/UserAddAward.cshtml" method="post">
+        <div class="item">
+            Выберите награду
+            <select size="1" name="IdAward">
+
+                @foreach (var award in BaseModel.bll.GetAwards())
+                {
+                    if (award != null)
+                    {
+                        <option value="@award.Id">@award.Title</option>
+                    }
+                }
+            </select>
+            Выберите пользователя
+            <select size="1" name="idUser">
+                @foreach (var user in BaseModel.bll.GetUsers())
+                {
+                    if (user != null)
+                    {
+                        <option value="@user.Id">@user.Name</option>
+                    }
+                }
+            </select>
+        </div>
+        <input type="submit" value="Выдать награду пользователю" />
+    </form>
+
+    <form action="~/Pages/Layaout/DeleteAwardChek.cshtml" method="post">
+        <div class="item">
+            Выберите награду
+            <select size="1" name="IdAward">
+                @foreach (var award in BaseModel.bll.GetAwards())
+                {
+                    if (award != null)
+                    {
+                        <option value="@award.Id">@award.Title</option>
+                    }
+                }
+            </select>
+
+        </div>
+        <input type="submit" value="Удалить награду" />
+    </form>
+
+    <form action="~/Pages/Layaout/DeletefUsers" method="post">
+        <div class="item">
+            Выберите пользователя
+            <select size="1" name="IdUser">
+                @foreach (var IdUser in BaseModel.bll.GetUsers())
+                {
+                    if (IdUser != null)
+                    {
+                        <option value="@IdUser.Id">@IdUser.Name</option>
+                    }
+                }
+            </select>
+
+        </div>
+        <input type="submit" value="Удалить пользователя" />
+    </form>
+
+    <form action="~/Pages/Layaout/UpdateUser.cshtml" method="post">
+        <div class="item">
+            Выберите пользователя
+            <select size="1" name="idUser">
+                @foreach (var IdUser in BaseModel.bll.GetUsers())
+                {
+                    if (IdUser != null)
+                    {
+                        <option value="@IdUser.Id">@IdUser.Name</option>
+                    }
+                }
+            </select>
+            <input name="name" placeholder ="Новое имя" />
+
+        </div>
+        <input type="submit" value="Изменить имя пользователя" />
+    </form>
+}

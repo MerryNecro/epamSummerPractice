@@ -1,0 +1,16 @@
+﻿@using EPAM.AWARDS.ASPPL.Models
+@using System.Globalization;
+@{
+    Layout = null;
+    if (IsPost)
+    {
+        int idUser;
+        int idAward;
+
+        if (int.TryParse(Request["idUser"],out idUser)&& int.TryParse(Request["idAward"], out idAward))
+        {
+            BaseModel.bll.AddAwardToUser(idUser, idAward);
+        }
+    }
+    Response.Redirect("~/Index.cshtml");
+}

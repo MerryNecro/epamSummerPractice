@@ -1,0 +1,33 @@
+﻿@using EPAM.AWARDS.ASPPL.Models;
+@using EPAM.AWARDS.Entities
+@{
+    Layout = null;
+    if (IsPost)
+    {
+        string name = Request["name"];
+        if (name == "")
+        {
+            <h1>ИМЯ НЕ МОЖЕТ БЫТЬ ПУСТЫМ</h1>
+            <form action="/Index.cshtml">
+                <button>Назад</button>
+            </form>
+
+        }
+        else
+        {
+            int idUser;
+            if (int.TryParse(Request["idUser"], out idUser))
+            {
+                User user = BaseModel.bll.GetUser(idUser);
+                user.Name = name;
+                BaseModel.bll.UpdateUser(user);
+                Response.Redirect("~/Index.cshtml");
+            }
+        }
+    }
+    else
+    {
+        Response.Redirect("~/Index.cshtml");
+    }
+}
+
