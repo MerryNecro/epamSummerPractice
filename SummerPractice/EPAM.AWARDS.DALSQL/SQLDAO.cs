@@ -247,6 +247,7 @@ namespace EPAM.AWARDS.DAL
 
         public User UpdateUser(User user)
         {
+
             using (_connection = new SqlConnection(_connectionStrong))
             {
                 var procedure = "UpdateUser";
@@ -261,18 +262,10 @@ namespace EPAM.AWARDS.DAL
                 UpdateUser.Parameters.AddWithValue("@roll", user.Roll);
                 _connection.Open();
 
-                DeleteAllAwardOfUser(user);
-
-                foreach (var item in user.Awards)
-                {
-                    if (item != null)
-                    {
-                        AddAwardToUser(user.Id, item.Id);
-                    }
-                }
-
+                var res = UpdateUser.ExecuteNonQuery();
+                return res != 0 ? GetUser(user.Id) : null;
             }
-            return GetUser(user.Id);
+            
 
         }
 
